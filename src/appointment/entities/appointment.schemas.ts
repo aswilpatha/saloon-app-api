@@ -17,10 +17,10 @@ export class Appointment {
     location: string;
     @Prop()
     status:Status;
-    @Prop({ type: mongoose.Schema.Types.Array, ref: 'Customer' })
-    customer: Customer[];
-    @Prop({ type: mongoose.Schema.Types.Array, ref: 'Service' })
-    service: Service[];
+    @Prop({ type: mongoose.Schema.Types.Map, ref: 'Customer' })
+    customer: Customer;
+    @Prop({ type: mongoose.Schema.Types.Map, ref: 'Service' })
+    service: Service;
 
 
 }

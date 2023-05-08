@@ -15,9 +15,9 @@ export class Payment {
     total_amount :string;
     @Prop()
     payment_method: string;
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Customer' })
+    @Prop({ type: mongoose.Schema.Types.Map, ref: 'Customer' })
     customer: Customer;
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' })
+    @Prop({ type: mongoose.Schema.Types.Map, ref: 'Appointment' })
     appointment: Appointment;
 
 
