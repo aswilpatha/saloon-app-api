@@ -7,6 +7,8 @@ import { Prop, SchemaFactory } from '@nestjs/mongoose';
 export class Service {
     @Prop()
     service_name: string;
+    @Prop()
+    category:Category;
   
     @Prop()
     description: string;
@@ -20,5 +22,11 @@ export class Service {
   
   
   }
+  export enum Category{
+  HAIR_CUT='Hair-Cut',
+  MAKE_UP='Make-up',
+  BEARD='Beard',
+  MASSAGE='Massage',
+}
   
   export const ServiceSchema =SchemaFactory.createForClass(Service)
