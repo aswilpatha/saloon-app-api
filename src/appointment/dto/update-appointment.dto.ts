@@ -6,15 +6,18 @@ import { Customer } from 'src/customer/schemas/customer.schema';
 import { IsDate, IsNotEmpty, IsString } from 'class-validator';
 import { Status } from '../entities/appointment.schemas';
 import { User } from 'src/auth/schemas/auth.schemas';
+import { Session } from 'src/session/entities/session.schema';
+import { Timeslot } from 'src/timeslot/entities/timeslot.schema';
 
 export class UpdateAppointmentDto extends PartialType(CreateAppointmentDto) {
 
     @IsNotEmpty()
-   // @IsDate()
+    //@IsDate()
     readonly appointment_date : Date;
     @IsNotEmpty()
-    //@IsDate()
-    readonly appointment_time : Date;
+    readonly session : Session;
+    @IsNotEmpty()
+    readonly timeslot : Timeslot;
     @IsNotEmpty()
     @IsString()
     readonly location: string;

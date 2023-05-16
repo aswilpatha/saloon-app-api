@@ -4,6 +4,8 @@ import { Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User } from 'src/auth/schemas/auth.schemas';
 import { Service } from 'src/services/entities/service.schemas';
+import { Session } from 'src/session/entities/session.schema';
+import { Timeslot } from 'src/timeslot/entities/timeslot.schema';
 
 @Schema({
     timestamps: true,
@@ -11,8 +13,10 @@ import { Service } from 'src/services/entities/service.schemas';
 export class Appointment {
     @Prop()
     appointment_date : Date;
-    @Prop()
-    appointment_time : Date;
+    @Prop({ type: mongoose.Schema.Types.Map, ref: 'Session' })
+    session :Session ;
+    @Prop({ type: mongoose.Schema.Types.Map, ref: 'Timeslot' })
+    timeslot :Timeslot ;
     @Prop()
     location: string;
     @Prop()

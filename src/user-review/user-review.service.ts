@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserReviewDto } from './dto/create-user-review.dto';
 import { UpdateUserReviewDto } from './dto/update-user-review.dto';
+import { UserReview } from './entities/user-review.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class UserReviewService {
-  create(createUserReviewDto: CreateUserReviewDto) {
-    return 'This action adds a new userReview';
+  constructor(
+    @InjectModel(UserReview.name)
+    private userReviewModel:mongoose.Model<UserReview>
+  ){}
+
+  async create(createUserReviewDto: CreateUserReviewDto):Promise<UserReview> {
+    const userReview=await this.userReviewModel.create(createUserReviewDto)
+        return userReview;
   }
 
-  findAll() {
-    return `This action returns all userReview`;
+
+  async findAll():Promise<UserReview[]> {
+    const userReviews=await this.userReviewModel.find()
+        return userReviews;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userReview`;
+  async findOne(id:string):Promise<UserReview>{
+    const userReview=await this.userReviewModel.findById(id)
+    if(!userReview){
+        throw new NotFoundException('Not a registered UserReview...!!!');
+    }
+    return userReview;
+}
+
+async update(id: string, updateUserReviewDto: UpdateUserReviewDto):Promise<UserReview>{
+    return await this.userReviewModel.findByIdAndUpdate(id,updateUserReviewDto,{
+        new:true,
+        runValidators:true,
+    });
   }
 
-  update(id: number, updateUserReviewDto: UpdateUserReviewDto) {
-    return `This action updates a #${id} userReview`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userReview`;
-  }
+  async remove(id: string):Promise<UserReview>{
+    return await this.userReviewModel.findByIdAndDelete(id)
+    
+}
 }

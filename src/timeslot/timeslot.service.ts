@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTimeslotDto } from './dto/create-timeslot.dto';
 import { UpdateTimeslotDto } from './dto/update-timeslot.dto';
+import { Timeslot } from './entities/timeslot.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class TimeslotService {
-  create(createTimeslotDto: CreateTimeslotDto) {
-    return 'This action adds a new timeslot';
+  constructor(
+    @InjectModel(Timeslot.name)
+    private timeslotModel:mongoose.Model<Timeslot>
+  ){}
+
+  async create(createTimeslotDto: CreateTimeslotDto):Promise<Timeslot> {
+    const timeslot=await this.timeslotModel.create(createTimeslotDto)
+        return timeslot;
   }
 
-  findAll() {
-    return `This action returns all timeslot`;
+
+  async findAll():Promise<Timeslot[]> {
+    const timeslots=await this.timeslotModel.find()
+        return timeslots;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} timeslot`;
+  async findOne(id:string):Promise<Timeslot>{
+    const timeslot=await this.timeslotModel.findById(id)
+    if(!timeslot){
+        throw new NotFoundException('Not a registered timeslots...!!!');
+    }
+    return timeslot;
+}
+
+async update(id: string, updateTimeslotDto: UpdateTimeslotDto):Promise<Timeslot>{
+    return await this.timeslotModel.findByIdAndUpdate(id,updateTimeslotDto,{
+        new:true,
+        runValidators:true,
+    });
   }
 
-  update(id: number, updateTimeslotDto: UpdateTimeslotDto) {
-    return `This action updates a #${id} timeslot`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} timeslot`;
-  }
+  async remove(id: string):Promise<Timeslot>{
+    return await this.timeslotModel.findByIdAndDelete(id)
+    
+}
 }

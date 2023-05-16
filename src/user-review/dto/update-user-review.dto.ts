@@ -12,10 +12,8 @@ export class UpdateUserReviewDto extends PartialType(CreateUserReviewDto) {
     @IsNumber()
     readonly rate: number;
     @IsNotEmpty()
-    @IsString()
     readonly user: User;
     @IsNotEmpty()
-    @IsString()
     readonly service: Service;
 }
 
