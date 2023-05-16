@@ -10,6 +10,10 @@ import { AppointmentModule } from './appointment/appointment.module';
 import { PaymentModule } from './payment/payment.module';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
+import { SessionModule } from './session/session.module';
+import { TimeslotModule } from './timeslot/timeslot.module';
+import { UserReviewModule } from './user-review/user-review.module';
+import { WorkAllocationModule } from './work-allocation/work-allocation.module';
 
 @Module({
   imports: [
@@ -25,6 +29,10 @@ import { PassportModule } from '@nestjs/passport';
     PaymentModule,
     AuthModule,
     PassportModule,
+    SessionModule,
+    TimeslotModule,
+    UserReviewModule,
+    WorkAllocationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
