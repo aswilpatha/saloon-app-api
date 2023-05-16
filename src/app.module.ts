@@ -9,6 +9,7 @@ import { ServicesModule } from './services/services.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { PaymentModule } from './payment/payment.module';
 import { AuthModule } from './auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
     AppointmentModule,
     PaymentModule,
     AuthModule,
+    PassportModule,
   ],
   controllers: [AppController],
   providers: [AppService],

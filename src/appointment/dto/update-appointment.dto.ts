@@ -5,6 +5,7 @@ import { Service } from 'src/services/entities/service.schemas';
 import { Customer } from 'src/customer/schemas/customer.schema';
 import { IsDate, IsNotEmpty, IsString } from 'class-validator';
 import { Status } from '../entities/appointment.schemas';
+import { User } from 'src/auth/schemas/auth.schemas';
 
 export class UpdateAppointmentDto extends PartialType(CreateAppointmentDto) {
 
@@ -20,7 +21,7 @@ export class UpdateAppointmentDto extends PartialType(CreateAppointmentDto) {
     @IsNotEmpty()
     readonly status:Status;
     @IsNotEmpty()
-    readonly customer: Customer;
+    readonly user: User;
     @IsNotEmpty()
     readonly service: Service;
 }

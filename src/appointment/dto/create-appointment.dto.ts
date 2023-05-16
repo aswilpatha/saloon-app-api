@@ -3,6 +3,7 @@ import { IsNotEmpty, IsString ,IsDate} from 'class-validator';
 import { Customer } from 'src/customer/schemas/customer.schema';
 import { Service } from 'src/services/entities/service.schemas';
 import { Status } from '../entities/appointment.schemas';
+import { User } from 'src/auth/schemas/auth.schemas';
 
 
 export class CreateAppointmentDto {
@@ -18,7 +19,7 @@ export class CreateAppointmentDto {
     @IsNotEmpty()
     readonly status:Status;
     @IsNotEmpty()
-    readonly customer: Customer;
+    readonly user: User;
     @IsNotEmpty()
     readonly service: Service;
 

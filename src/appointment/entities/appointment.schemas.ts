@@ -2,7 +2,7 @@
 import { Schema } from '@nestjs/mongoose';
 import { Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { Customer } from 'src/customer/schemas/customer.schema';
+import { User } from 'src/auth/schemas/auth.schemas';
 import { Service } from 'src/services/entities/service.schemas';
 
 @Schema({
@@ -17,8 +17,8 @@ export class Appointment {
     location: string;
     @Prop()
     status:Status;
-    @Prop({ type: mongoose.Schema.Types.Map, ref: 'Customer' })
-    customer: Customer;
+    @Prop({ type: mongoose.Schema.Types.Map, ref: 'User' })
+    user: User;
     @Prop({ type: mongoose.Schema.Types.Map, ref: 'Service' })
     service: Service;
 

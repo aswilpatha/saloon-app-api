@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { use } from 'passport';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
+import { ProfileDto } from './dto/profile.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,12 +18,20 @@ export class AuthService {
         private jwtService:JwtService
     ){}
     async signUp(signUpDto:SignUpDto):Promise<{token:string}>{
-        const{name,email,password}=signUpDto
+        const{first_name,last_name,email,password,gender,contact_no,address,is_active,role}=signUpDto
         const hashedPassword=await bcrypt.hash(password,10)
         const user=await this.userModel.create({
-            name,
+            first_name,
+            last_name,
             email,
-            password:hashedPassword
+            password:hashedPassword,
+            gender,
+            contact_no,
+            address,
+            is_active,
+            role
+
+
         })
 
         const token=this.jwtService.sign({id:user._id})
@@ -30,7 +39,7 @@ export class AuthService {
         return {token}
     }
 
-    async signIn(loginDto:LoginDto):Promise<{token:string}>{
+    async signIn(loginDto:LoginDto):Promise<{user:User,token:string}>{
         const{email,password}=loginDto;
         const user= await this.userModel.findOne({email});
         if(!user){
@@ -41,10 +50,14 @@ export class AuthService {
         if(!isPasswordMatched){
             throw new UnauthorizedException("Invalied password");
         }
-        const token=this.jwtService.sign({id:user._id})
+        
+        const token=this.jwtService.sign({id:user._id});
+        
+        
 
-        return {token}
+        return {user:user ,token : token}
 
+    
     }
-
 }
+

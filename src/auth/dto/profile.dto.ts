@@ -4,7 +4,7 @@ import { Role } from '../schemas/auth.schemas';
 
 
 
-export class SignUpDto {
+export class ProfileDto {
     @IsNotEmpty()
     @IsString()
     readonly first_name:string;
@@ -28,7 +28,6 @@ export class SignUpDto {
     @IsString()
     readonly address: string;
     readonly is_active:boolean;
-    @IsNotEmpty()
     @IsString()
     readonly role: Role;
     
