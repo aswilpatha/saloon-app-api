@@ -25,6 +25,13 @@ export class TimeslotController {
     return this.timeslotService.findAll();
   }
 
+  @Get('unused')
+  @Roles('admin','customer')
+  @UseGuards(AuthGuard(),RoleGuard)
+  unusedSlots() {
+    return this.timeslotService.unUsedTimeSlots();
+  }
+
   @Get(':id')
   @Roles('admin','customer')
   @UseGuards(AuthGuard(),RoleGuard)

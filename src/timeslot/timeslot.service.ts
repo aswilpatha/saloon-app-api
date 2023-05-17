@@ -5,12 +5,14 @@ import { UpdateTimeslotDto } from './dto/update-timeslot.dto';
 import { Timeslot } from './entities/timeslot.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
+import { AppointmentService } from '../appointment/appointment.service';
 
 @Injectable()
 export class TimeslotService {
   constructor(
     @InjectModel(Timeslot.name)
-    private timeslotModel:mongoose.Model<Timeslot>
+    private timeslotModel:mongoose.Model<Timeslot>,
+    private appointmentService: AppointmentService
   ){}
 
   async create(createTimeslotDto: CreateTimeslotDto):Promise<Timeslot> {
@@ -31,6 +33,17 @@ export class TimeslotService {
     }
     return timeslot;
 }
+
+
+async unUsedTimeSlots():Promise<any>{
+  const appointments = await this.appointmentService.findAll();
+  const usedSlots = appointments.map(appointment => appointment.timeslot )
+  const usedSlotsObjects = JSON.parse(JSON.stringify(Object.fromEntries(usedSlots.entries())));
+  const usedSlotsArray = Object.values(usedSlotsObjects);
+  const usedSlotIds = usedSlotsArray.map((usedSlot: any) => usedSlot?._id);
+  return this.timeslotModel.find({ _id: { $nin: usedSlotIds} });
+}
+  
 
 async update(id: string, updateTimeslotDto: UpdateTimeslotDto):Promise<Timeslot>{
     return await this.timeslotModel.findByIdAndUpdate(id,updateTimeslotDto,{

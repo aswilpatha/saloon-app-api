@@ -10,6 +10,7 @@ import { AuthModule } from 'src/auth/auth.module';
   imports:[AuthModule,
     MongooseModule.forFeature([{name:'Appointment',schema:AppointmentSchema}])],
   controllers: [AppointmentController],
-  providers: [AppointmentService]
+  providers: [AppointmentService],
+  exports: [AppointmentService, MongooseModule]
 })
 export class AppointmentModule {}
