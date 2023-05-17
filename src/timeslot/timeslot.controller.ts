@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { TimeslotService } from './timeslot.service';
 import { CreateTimeslotDto } from './dto/create-timeslot.dto';
 import { UpdateTimeslotDto } from './dto/update-timeslot.dto';
@@ -28,8 +28,8 @@ export class TimeslotController {
   @Get('unused')
   @Roles('admin','customer')
   @UseGuards(AuthGuard(),RoleGuard)
-  unusedSlots() {
-    return this.timeslotService.unUsedTimeSlots();
+  unusedSlots(@Query('date') date: Date, @Query('sessionId') sessionId: string) {
+    return this.timeslotService.unUsedTimeSlots(date, sessionId);
   }
 
   @Get(':id')

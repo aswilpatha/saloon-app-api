@@ -18,8 +18,8 @@ export class AppointmentService {
         return appointment;
   }
 
-  async findAll():Promise<Appointment[]> {
-    const appointments=await this.appointmentModel.find()
+  async findAll(query = {}):Promise<Appointment[]> {
+    const appointments=await this.appointmentModel.find(query)
         return appointments;
   }
 

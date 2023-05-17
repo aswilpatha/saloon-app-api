@@ -35,8 +35,8 @@ export class TimeslotService {
 }
 
 
-async unUsedTimeSlots():Promise<any>{
-  const appointments = await this.appointmentService.findAll();
+async unUsedTimeSlots(date: Date, sessionId: string):Promise<any>{
+  const appointments = await this.appointmentService.findAll({appointment_date: date, "session._id": {"$eq" : sessionId} });
   const usedSlots = appointments.map(appointment => appointment.timeslot )
   const usedSlotsObjects = JSON.parse(JSON.stringify(Object.fromEntries(usedSlots.entries())));
   const usedSlotsArray = Object.values(usedSlotsObjects);
